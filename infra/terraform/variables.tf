@@ -1,60 +1,81 @@
-variable "aws_region" {
-  description = "AWS region to deploy into"
-  type        = string
-  default     = "us-east-2"
-}
-
 variable "project_name" {
-  description = "Base name for resources"
   type        = string
-  default     = "kafka-enterprise-orders"
+  description = "Project name"
 }
 
-variable "container_image_producer" {
+variable "aws_region" {
+  type        = string
+  description = "AWS region"
+}
+
+variable "kafka_broker" {
+  type        = string
+  description = "Kafka broker address"
+}
+
+variable "producer_image" {
+  type        = string
   description = "Docker image for order producer"
-  type        = string
 }
 
-variable "container_image_fraud" {
-  description = "Docker image for fraud service"
+variable "analytics_image" {
   type        = string
-}
-
-variable "container_image_payment" {
-  description = "Docker image for payment service"
-  type        = string
-}
-
-variable "container_image_analytics" {
   description = "Docker image for analytics service"
-  type        = string
 }
 
-variable "confluent_bootstrap_servers" {
-  description = "Confluent Cloud bootstrap servers"
+variable "api_image" {
   type        = string
+  description = "Docker image for API service"
 }
 
-variable "confluent_api_key" {
-  description = "Confluent Cloud API key"
+variable "fraud_image" {
   type        = string
-  sensitive   = true
+  description = "Docker image for fraud service"
 }
 
-variable "confluent_api_secret" {
-  description = "Confluent Cloud API secret"
+variable "payment_image" {
   type        = string
-  sensitive   = true
-}
-
-variable "rds_username" {
-  description = "RDS master username"
-  type        = string
-  default     = "orders_user"
+  description = "Docker image for payment service"
 }
 
 variable "rds_password" {
-  description = "RDS master password"
   type        = string
-  sensitive   = true
 }
+
+variable "rds_db_name" {
+  type        = string
+}
+
+variable "rds_instance_class" {
+  type        = string
+}
+
+variable "rds_allocated_storage" {
+  type = number
+}
+
+variable "rds_backup_retention" {
+  type = number
+}
+
+variable "rds_multi_az" {
+  type = bool
+}
+
+variable "rds_public_access" {
+  type = bool
+}
+
+variable "rds_storage_type" {
+  type = string
+}
+
+variable "rds_deletion_protection" {
+  type = bool
+}
+
+variable "rds_username" {
+  description = "Username for the RDS database"
+  type        = string
+}
+
