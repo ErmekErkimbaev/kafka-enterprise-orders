@@ -1,4 +1,4 @@
-project_name = "kafka-enterprise"
+project_name = "kafka-enterprise-orders"
 aws_region   = "us-east-1"
 
 kafka_broker = "broker:29092"

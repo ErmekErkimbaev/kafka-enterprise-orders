@@ -1,6 +1,9 @@
 resource "aws_db_subnet_group" "orders" {
   name       = "${var.project_name}-db-subnets"
   subnet_ids = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+  lifecycle {
+  prevent_destroy = true
+  }
 
   tags = {
     Name = "${var.project_name}-db-subnets"
@@ -8,7 +11,7 @@ resource "aws_db_subnet_group" "orders" {
 }
 
 resource "aws_security_group" "rds" {
-  name        = "${var.project_name}-rds-sg"
+  name        = "kafka-enterprise-rds-sg"
   description = "Allow Postgres from ECS tasks"
   vpc_id      = aws_vpc.main.id
 
@@ -18,16 +21,17 @@ resource "aws_security_group" "rds" {
     protocol        = "tcp"
     security_groups = [aws_security_group.ecs_tasks.id]
   }
-
+  
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    
+  protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   tags = {
-    Name = "${var.project_name}-rds-sg"
+    Name = "kafka-enterprise-rds-sg"
   }
 }
 
@@ -43,6 +47,10 @@ resource "aws_db_instance" "orders_db" {
   vpc_security_group_ids = [aws_security_group.rds.id]
   publicly_accessible    = false
   skip_final_snapshot    = true
+
+  lifecycle {
+    ignore_changes = [db_subnet_group_name, vpc_security_group_ids, tags]
+  }
 
   tags = {
     Name = "${var.project_name}-db"

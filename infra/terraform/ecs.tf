@@ -1,11 +1,17 @@
 # ECS Cluster
 resource "aws_ecs_cluster" "app_cluster" {
   name = "${var.project_name}-cluster"
+  
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
 }
+
 
 # Order Producer Task Definition
 resource "aws_ecs_task_definition" "order_producer" {
-  family                   = "${var.project_name}-producer-task"
+  family                   = "${var.project_name}-producer"
   cpu                      = 256
   memory                   = 512
   network_mode             = "awsvpc"
