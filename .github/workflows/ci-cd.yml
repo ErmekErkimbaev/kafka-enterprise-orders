@@ -55,11 +55,14 @@ jobs:
 
       # ---------------- Terraform Init ----------------
       - name: Terraform Init
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform init -backend-config="bucket=kafka-enterprise-orders-terraform-state" \
-                             -backend-config="key=kafka-enterprise-orders/terraform.tfstate" \
-                             -backend-config="region=${{ env.AWS_REGION }}" \
-                             -backend-config="dynamodb_table=terraform-locks"
+        run: |
+          terraform init \
+            -backend-config="bucket=kafka-enterprise-orders-terraform-state" \
+            -backend-config="key=kafka-enterprise-orders/terraform.tfstate" \
+            -backend-config="region=us-east-1" \
+            -backend-config="dynamodb_table=terraform-locks"
+        working-directory: infra/terraform
+
 
       # ---------------- Terraform Plan ----------------
       - name: Terraform Plan
